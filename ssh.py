@@ -76,6 +76,17 @@ class SSHHandler:
         paths = [os.path.normpath(s) for s in paths]
         return paths
 
+    def deleteFileFromLocal(self, path, verbose=False):
+        try:
+            if verbose:
+                print("deleting local directory : " + str(path))
+            os.remove(path)
+            return True
+        except:
+            if verbose:
+                print("failed to remove directory from local : " + str(path))
+            return False
+
     def uplodFiles(self, listPaths, index, target):
         if index >= len(listPaths):
             print("Done: uploading directory : " + target)
@@ -101,6 +112,7 @@ class SSHHandler:
 
                         listPaths[index] = self.aesHandler.encryptFile(
                             listPaths[index])
+
                 # extract filename with extention from the source file
                 filename = ntpath.basename(listPaths[index])
                 print("start uploading .. " + filename +
@@ -112,6 +124,9 @@ class SSHHandler:
 
                     self.putFile(listPaths[index], target +
                                  filename,  someFunction("start uploading .. " + filename))
+                # keep encrypted files or not
+                    if not self.keep_encrypted:
+                        self.deleteFileFromLocal(listPaths[index])
 
                 print(" done uploading : " +
                       listPaths[index] + " to: " + target + "\n Details: " + str(size))
@@ -125,15 +140,17 @@ def someFunction(arr):
 # default params
 encrypted_upload = False
 keep_encrypted = False
-
+deleteSource = False
 
 try:
-    if str(sys.argv[1]) == '-e':
+    if '-e' in sys.argv:
         print("encryption before upload activated !")
         encrypted_upload = True
-    if str(sys.argv[2]) == "-keep-encrypted":
+    if "-keep-encrypted" in sys.argv or "-k" in sys.argv:
         keep_encrypted = True
         print("keep_encrypted  activated !")
+    if "-delete-source" in sys.argv or "-d" in sys.argv:
+        deleteSource = True
 except:
     print("executing without overrifing params !")
 

@@ -6,6 +6,18 @@ This script uploads stuff to your server using sftp it's fast and it has special
  - encrypt files and folders 
  - upload with encryption or without encryption 
 
+ # how to use 
+
+ the script takes 3 main params `-e` in case you want to encrypt then upload encrypted files only, `-d`  or `-delete-source` if you want to delete the source files after uploading them finaly `-k` or `-keep-encrypted` if you want to keep encrypted files after upload 
+
+ using this three params you have interesting conbinations such as :
+
+ ## upload files then delete them
+` python ssh.py -d`
+
+## upload encrypted files but keep them in local but delete source instead
+` python ssh.py -e -k -d`
+
  # if u think that this script is badass and u wanna be fren don't forget do donate and send a message ! UWU X>
 <img src="https://isthmaroc.com/qrcode.png" data-canonical-src="https://isthmaroc.com/qrcode.png" width="300" height="300" />
 
