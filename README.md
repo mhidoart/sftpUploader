@@ -8,4 +8,4 @@ This script uploads stuff to your server using sftp it's fast and it has special
 
  # if u think that this script is badass and u wanna be fren don't forget do donate and send a message ! UWU X>
 
- ![image info](https://isthmaroc.com/qrcode.png)
+ ![image info](https://isthmaroc.com/qrcode.png =400x400)
