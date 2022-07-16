@@ -7,5 +7,5 @@ This script uploads stuff to your server using sftp it's fast and it has special
  - upload with encryption or without encryption 
 
  # if u think that this script is badass and u wanna be fren don't forget do donate and send a message ! UWU X>
+<img src="https://isthmaroc.com/qrcode.png" data-canonical-src="https://isthmaroc.com/qrcode.png" width="300" height="300" />
 
- ![image info](https://isthmaroc.com/qrcode.png =400x400)
