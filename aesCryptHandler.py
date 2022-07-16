@@ -14,7 +14,7 @@ class AesCryptHandler:
         if not os.path.exists(self.decryption_default_path):
             os.makedirs(self.decryption_default_path)
 
-    def encryptFile(self, source, dest="", passw=""):
+    def encryptFile(self, source, dest="", passw="", delete_source=False):
         try:
             # if no password was specified the default password s the one passed to the constructor
             if passw == "":
@@ -26,12 +26,16 @@ class AesCryptHandler:
             if not str(dest).endswith(".aes"):
                 dest = dest + ".aes"
             pyAesCrypt.encryptFile(source, dest, passw)
+
+            # delete source after encryption
+            if delete_source == True:
+                os.remove(source)
             return True
         except:
             print("error encrypting -> ", source)
             return False
 
-    def decryptFile(self, source, dest="", passw=""):
+    def decryptFile(self, source, dest="", passw="", delete_source=False):
         try:
             # if no password was specified the default password s the one passed to the constructor
             if passw == "":
@@ -40,6 +44,9 @@ class AesCryptHandler:
                 dest = os.path.join(
                     self.decryption_default_path, str(ntpath.basename(source)).replace(".aes", ""))
             pyAesCrypt.decryptFile(source, dest, passw)
+            # delete source after decryption
+            if delete_source == True:
+                os.remove(source)
             return True
         except:
             print("error decrypting -> ", source)
