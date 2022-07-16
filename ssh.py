@@ -33,7 +33,7 @@ sftp.close()
 '''
 
 
-class SSHHandler():
+class SSHHandler:
     def __init__(self, sshHost, sshPort,  sshUsername, sshPassword, sshTimeout):
         self.s = paramiko.SSHClient()
         self.s.set_missing_host_key_policy(paramiko.AutoAddPolicy())
