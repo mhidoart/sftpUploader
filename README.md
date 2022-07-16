@@ -7,8 +7,10 @@ This script uploads stuff to your server using sftp it's fast and it has special
  - upload with encryption or without encryption 
 
  # how to use 
+- the first thing to do is to fill `source.txt` by copy past paths you want to upload using ssh (it doesn't matter if the paths are files or directories)
 
- the script takes 3 main params `-e` in case you want to encrypt then upload encrypted files only, `-d`  or `-delete-source` if you want to delete the source files after uploading them finaly `-k` or `-keep-encrypted` if you want to keep encrypted files after upload 
+-Then you have to give params to the script or not, the script takes 3 main params `-e` in case you want to encrypt then upload encrypted files only, `-d`  or `-delete-source` if you want to delete the source files after uploading them finaly `-k` or `-keep-encrypted` if you want to keep encrypted files after upload.
+if you don't specify any param the defaul behaviour of the script will be upload source files without encryption and without deleting anything !
 
  using this three params you have interesting conbinations such as :
 
