@@ -5,6 +5,7 @@ import os
 import sys
 from config import *
 import ntpath
+from aesCryptHandler import *
 
 
 def advancement(transfered, total):
@@ -34,12 +35,17 @@ sftp.close()
 
 
 class SSHHandler:
-    def __init__(self, sshHost, sshPort,  sshUsername, sshPassword, sshTimeout):
+    def __init__(self, sshHost, sshPort,  sshUsername, sshPassword, sshTimeout, master_encryption_password="super secret pass, comme on change it u dumb ass",
+                 encrypted_upload=False, keep_encrypted=False, deleteSource=False):
+        self.encrypted_upload = encrypted_upload
+        self.keep_encrypted = keep_encrypted
+        self.deleteSource = deleteSource
         self.s = paramiko.SSHClient()
         self.s.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.s.connect(sshHost, sshPort, username=sshUsername,
                        password=sshPassword, timeout=sshTimeout)
         self.sftp = self.s.open_sftp()
+        self.aesHandler = AesCryptHandler(master_encryption_password)
 
     def putFile(self, source, dest, callback):
         try:
@@ -85,10 +91,20 @@ class SSHHandler:
                 self.uplodFiles(self.getPaths(listPaths[index]), 0, dir)
             else:
                 # upload file
+                size = -1
+                # if encryption is activated
+                if self.encrypted_upload:
+                    if self.deleteSource:
+                        listPaths[index] = self.aesHandler.encryptFile(
+                            listPaths[index], delete_source=True)
+                    else:
+
+                        listPaths[index] = self.aesHandler.encryptFile(
+                            listPaths[index])
+                # extract filename with extention from the source file
                 filename = ntpath.basename(listPaths[index])
                 print("start uploading .. " + filename +
                       " to: " + TARGET_PATH + target + filename)
-                size = -1
                 if target == "":
                     self.putFile(listPaths[index], TARGET_PATH + target +
                                  filename,  someFunction("start uploading .. " + filename))
@@ -108,20 +124,27 @@ def someFunction(arr):
 
 # default params
 encrypted_upload = False
-recursive = False
+keep_encrypted = False
+
 
 try:
-    if str(sys.argv[1]) == "-e":
+    if str(sys.argv[1]) == '-e':
         print("encryption before upload activated !")
         encrypted_upload = True
-    if str(sys.argv[2]) == "-r":
-        recursive = True
-        print("recursive uploading activated !")
+    if str(sys.argv[2]) == "-keep-encrypted":
+        keep_encrypted = True
+        print("keep_encrypted  activated !")
 except:
     print("executing without overrifing params !")
 
 
-handler = SSHHandler(HOST, 22, USER, PASSWORD, 4)
+handler = SSHHandler(HOST, 22, USER, PASSWORD, 4,
+                     "281ffecf-7a96-44e8-a5be-f770487e81a1",
+                     encrypted_upload, keep_encrypted)
+# creating the parent node that will host the fils later
+handler.createDirectory(TARGET_PATH)
+
+
 '''
 # upload single filer
 size = handler.putFile(

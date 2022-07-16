@@ -30,10 +30,10 @@ class AesCryptHandler:
             # delete source after encryption
             if delete_source == True:
                 os.remove(source)
-            return True
+            return dest
         except:
             print("error encrypting -> ", source)
-            return False
+            return "None"
 
     def decryptFile(self, source, dest="", passw="", delete_source=False):
         try:
@@ -47,7 +47,7 @@ class AesCryptHandler:
             # delete source after decryption
             if delete_source == True:
                 os.remove(source)
-            return True
+            return dest
         except:
             print("error decrypting -> ", source)
-            return False
+            return "None"
