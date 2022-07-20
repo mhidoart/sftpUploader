@@ -1,2 +1,1 @@
-D:\divers\python scripts\ftp auto-upload\test.mp4
-D:\divers\python scripts\ftp auto-upload\Video
+D:\divers\isth

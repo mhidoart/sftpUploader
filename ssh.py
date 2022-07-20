@@ -156,7 +156,7 @@ except:
 
 
 handler = SSHHandler(HOST, 22, USER, PASSWORD, 4,
-                     "281ffecf-7a96-44e8-a5be-f770487e81a1",
+                     MASTER_ENCRYPTION_PASSWORD,
                      encrypted_upload, keep_encrypted, deleteSource)
 # creating the parent node that will host the fils later
 handler.createDirectory(TARGET_PATH)

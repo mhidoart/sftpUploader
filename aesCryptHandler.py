@@ -1,6 +1,7 @@
 import pyAesCrypt
 import os
 import ntpath
+import sys
 
 
 class AesCryptHandler:
@@ -51,3 +52,22 @@ class AesCryptHandler:
         except:
             print("error decrypting -> ", source)
             return "None"
+
+
+try:
+    if sys.argv[1] == '-e':
+        # encrype
+        print("encrypt option")
+    if "-d" == sys.argv[1]:
+        # decrypt
+        print("decrypt")
+    if "-p" == sys.argv[2]:
+        # password
+        print(str(sys.argv[3]))
+    if "-f" == sys.argv[4]:
+        # password
+        print(str(sys.argv[5]))
+except:
+    print("please give params to the script ! ")
+
+handler = AesCryptHandler("")
