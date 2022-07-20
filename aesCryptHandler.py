@@ -54,20 +54,59 @@ class AesCryptHandler:
             return "None"
 
 
+class AesHelper:
+    def __init__(self):
+        self.encryption = True
+        self.target = ""
+        self.dest = os.path.join(os.getcwd(), "decrypted")
+        self.password = ""
+
+    def execute(self):
+        self.handler = AesCryptHandler(self.password)
+        if self.encryption:
+
+            if os.path.isdir(self.dest):
+                self.handler.encryptFile(
+                    self.target, os.path.join(self.dest, ntpath.basename(self.target) + ".aes"))
+            else:
+                if ".aes" not in self.dest:
+                    self.dest += ".aes"
+                print("saving encrypted file to : " + str(os.path.join(os.getcwd(),
+                                                                       "encrypted")) + "  As -> " + str(self.dest))
+                self.handler.encryptFile(
+                    self.target, os.path.join(os.path.join(os.getcwd(),
+                                                           "encrypted"), self.dest))
+        else:
+            # decryption
+            self.handler.decryptFile(self.target, self.dest)
+
+
+aes_helper = AesHelper()
 try:
     if sys.argv[1] == '-e':
         # encrype
-        print("encrypt option")
+        aes_helper.encryption = True
     if "-d" == sys.argv[1]:
         # decrypt
-        print("decrypt")
+        aes_helper.encryption = False
     if "-p" == sys.argv[2]:
         # password
-        print(str(sys.argv[3]))
+        aes_helper.password = sys.argv[3]
     if "-f" == sys.argv[4]:
         # password
-        print(str(sys.argv[5]))
-except:
-    print("please give params to the script ! ")
+        aes_helper.target = sys.argv[5]
+    if "-o" == sys.argv[6]:
+        # password
+        aes_helper.dest = sys.argv[7]
 
-handler = AesCryptHandler("")
+    aes_helper.execute()
+except:
+    print("please give all required params here is an example !")
+    print(r'>aesCryptHandler.py" -e -p 12345678 -f somefile.txt -o ./encrypted')
+
+
+"""
+tests :
+ 
+
+"""
